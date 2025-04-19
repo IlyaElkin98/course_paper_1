@@ -14,3 +14,4 @@ def greeting(datetime: datetime):
 if __name__ == "__main__":
     time_now = datetime.now()
     print(greeting(time_now))
+
