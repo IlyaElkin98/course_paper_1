@@ -13,7 +13,6 @@ load_dotenv()
 # Определение текущего каталога
 current_dir = Path(__file__).parent.parent.resolve()
 dir_transactions_excel = current_dir / 'data' / 'operations.xlsx'
-print(dir_transactions_excel)
 
 
 def day_time_now():

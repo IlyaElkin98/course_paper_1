@@ -1,3 +1,4 @@
+from src.reports import save_report
 from src.utils import (day_time_now, exchange_rate, get_price_stocks_snp500, max_five_transactions, user_transactions)
 from typing import Union
 import pandas as pd
@@ -39,11 +40,12 @@ def website(data_time: datetime) -> Union[list, dict]:
     result4 = exchange_rate()
     result5 = get_price_stocks_snp500()
 
+
     return result1, result2, result3, result4, result5
 
 
 if __name__ == '__main__':
-
+    save_report(dir_transactions_excel)
     print(f'{day_time_now()}')
     # print(user_transactions(pd.to_datetime('29-09-2018 00:00:00', dayfirst=True)))
     data_time = pd.Timestamp("29-09-2018 00:00:00")  # Пример даты
