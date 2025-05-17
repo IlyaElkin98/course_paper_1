@@ -1,3 +1,5 @@
+import json
+
 from src.reports import save_report
 from src.utils import (day_time_now, exchange_rate, get_price_stocks_snp500, max_five_transactions, user_transactions)
 from typing import Union
@@ -40,8 +42,11 @@ def website(data_time: datetime) -> Union[list, dict]:
     result4 = exchange_rate()
     result5 = get_price_stocks_snp500()
 
+    final_result = result1, result2, result3, result4, result5
+    result_json = json.loads(final_result, ensure_ascii=False)
 
-    return result1, result2, result3, result4, result5
+
+    return result_json
 
 
 if __name__ == '__main__':
