@@ -26,13 +26,7 @@ def simple_search(search_str: str, dict_list: List[Dict[str, Any]]) -> List[Dict
 
     for item in dict_list:
         # print(item)
-        if search_str in str(item['Дата операции']):
-            new_list_transactions.append(item)
-        elif search_str in str(item['Дата платежа']):
-            new_list_transactions.append(item)
-        elif search_str in str(item['Номер карты']):
-            new_list_transactions.append(item)
-        elif search_str in str(item['Категория']):
+        if search_str in str(item['Категория']):
             new_list_transactions.append(item)
         elif search_str in item['Описание']:
             new_list_transactions.append(item)

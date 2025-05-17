@@ -15,6 +15,7 @@ current_dir = Path(__file__).parent.parent.resolve()
 dir_transactions_excel = current_dir / 'data' / 'operations.xlsx'
 
 
+
 def day_time_now():
     """
     Функция, которая приветствует в зависимости от текущего времени суток.
@@ -54,6 +55,7 @@ def user_transactions(data_time: pd.Timestamp) -> pd.DataFrame:
     df_filtered.loc[:, 'кэшбек'] = df_filtered['Сумма операции с округлением'] // 100
     sales_by_card = df_filtered.groupby('Номер карты')[['Сумма операции с округлением', 'кэшбек']].sum()
     sorted_sales = sales_by_card.sort_values(by='Сумма операции с округлением', ascending=False)
+
 
     print(sorted_sales)
     return sorted_sales

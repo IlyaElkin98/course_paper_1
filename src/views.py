@@ -1,5 +1,3 @@
-import json
-
 from src.reports import save_report
 from src.utils import (day_time_now, exchange_rate, get_price_stocks_snp500, max_five_transactions, user_transactions)
 from typing import Union
@@ -15,7 +13,7 @@ dir_transactions_excel = current_dir/'data'/'operations.xlsx'
 print(dir_transactions_excel)
 
 
-def website(data_time: datetime) -> Union[list, dict]:
+def website(data_time: pd.Timestamp) -> Union[list, dict]:
 
     """
     Главная функция, принимающую на вход строку с датой и временем в формате
@@ -41,12 +39,18 @@ def website(data_time: datetime) -> Union[list, dict]:
     result3 = max_five_transactions(data_time)
     result4 = exchange_rate()
     result5 = get_price_stocks_snp500()
+    main_dict = {}
+    main_dict["greeting"] = result1
+    main_dict["cards"] = result2
+    main_dict["top_transactions"] = result3
+    main_dict["currency_rates"] = result4
+    main_dict["stock_prices"] = result5
 
-    final_result = result1, result2, result3, result4, result5
-    result_json = json.loads(final_result, ensure_ascii=False)
 
 
-    return result_json
+
+    return main_dict
+
 
 
 if __name__ == '__main__':
