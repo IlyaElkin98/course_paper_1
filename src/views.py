@@ -2,7 +2,6 @@ from src.reports import save_report
 from src.utils import (day_time_now, exchange_rate, get_price_stocks_snp500, max_five_transactions, user_transactions)
 from typing import Union
 import pandas as pd
-import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv('../.env')

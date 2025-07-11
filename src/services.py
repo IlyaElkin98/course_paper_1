@@ -44,7 +44,6 @@ def simple_search(search_str: str, dict_list: List[Dict[str, Any]]) -> List[Dict
     return result
 
 if __name__ == '__main__':
-    # print(dict_list)
     search_str = input('Введите строку поиска: ')
     simple_search(search_str, dict_list)
 

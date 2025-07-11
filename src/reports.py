@@ -1,4 +1,3 @@
-
 from logger import setup_logging
 import json
 import os
@@ -14,11 +13,6 @@ print(dir_transactions_excel)
 
 current_dir = Path(__file__).parent.parent.resolve()
 file_path_log = current_dir/'../log', 'reports.log'
-# base_dir = "tests"
-# sub_dir = "data"
-# file_name = "test_file.txt"
-# full_path = os.path.join(base_dir, sub_dir, file_name)
-# print(full_path)
 
 logger = setup_logging('reports', file_path_log)
 
@@ -45,9 +39,6 @@ def save_report(filename=None):
                 with open(file_path, 'w', encoding='utf-8') as file:
                     json.dump(data, file, ensure_ascii=False, indent=4)
 
-        # if not os.path.exists('data'):
-        #     os.makedirs('data')# проверка, что директория существует
-
             save_to_file(result, file_path)
 
             print(save_to_file)
@@ -66,37 +57,19 @@ def spending_by_category(transactions: pd.DataFrame,
     опциональную дату. Если дата не передана, то берется текущая дата. Функция возвращает
     траты по заданной категории за последние три месяца (от переданной даты).
     '''
-    # transactions['Дата операции'] = pd.to_datetime(transactions['Дата операции'], format='%d.%m.%Y')
-    # transactions['Дата операции'] = pd.to_datetime(transactions['Дата операции'], format='%d.%m.%Y %H:%M:%S',
-    #                                                errors='coerce')
-    # transactions['Дата операции'] = pd.to_datetime(transactions['Дата операции'], format='%d.%m.%Y')
 
     if date is None:
-        # date = datetime.now().strftime('%d.%m.%Y')
         date = datetime.now().date()
 
-    # Convert date string to datetime object
     try:
         date = pd.to_datetime(date, dayfirst=True)
     except ValueError:
         raise ValueError("Invalid date format. Please use 'DD.MM.YYYY'.")
 
-    # Load transactions from Excel or use existing DataFrame
     df = pd.read_excel(dir_transactions_excel) if isinstance(transactions, pd.DataFrame) else transactions
-
-    # Преобразование даты
-    # transactions['Дата операции'] = pd.to_datetime(transactions['Дата операции'], format='%d.%m.%Y')
-    # transactions['Дата операции'] = pd.to_datetime(transactions['Дата операции'], format='%d.%m.%Y')
-    # transactions['Дата операции'] = pd.to_datetime(transactions['Дата операции'], format='%d.%m.%Y %H:%M:%S',
-    #                                                errors='coerce')
-    # Filter transactions by category
     filtered_transactions = df[df['Категория'] == category]
-
-    # Get the date range
     start_date = date - timedelta(days=90)
     end_date = date
-
-    # Further filter transactions by date range
     recent_transactions = filtered_transactions[
         (pd.to_datetime(filtered_transactions['Дата операции'], dayfirst=True) >= start_date) &
         (pd.to_datetime(filtered_transactions['Дата операции'], dayfirst=True) <= end_date)

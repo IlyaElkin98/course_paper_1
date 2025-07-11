@@ -16,6 +16,7 @@ dir_transactions_excel = current_dir / 'data' / 'operations.xlsx'
 
 
 
+
 def day_time_now():
     """
     Функция, которая приветствует в зависимости от текущего времени суток.
@@ -25,13 +26,13 @@ def day_time_now():
     hour = current_date_time.hour
 
     if 0 <= hour < 6 or 22 <= hour <= 23:
-        return "Доброй ночи"
+        return "Доброй ночи!"
     elif 17 <= hour <= 22:
-        return "Добрый вечер"
+        return "Добрый вечер!"
     elif 7 <= hour <= 11:
-        return "Доброе утро"
+        return "Доброе утро!"
     else:
-        return "Добрый день"
+        return "Добрый день!"
 
 
 def user_transactions(data_time: pd.Timestamp) -> pd.DataFrame:
@@ -43,19 +44,11 @@ def user_transactions(data_time: pd.Timestamp) -> pd.DataFrame:
     """
     df = pd.read_excel(dir_transactions_excel)
 
-    # Фильтрация транзакций за указанный месяц
-    # df_filtered = df.loc[
-    #     (pd.to_datetime(df['Дата операции'], dayfirst=True) <= data_time) &
-    #     (pd.to_datetime(df['Дата операции'], dayfirst=True) >= data_time.replace(day=1))
-    # ]
     df_filtered = df.loc[(pd.to_datetime(df['Дата операции'], dayfirst=True) <= data_time) &
                          (pd.to_datetime(df['Дата операции'], dayfirst=True) >= data_time.replace(day=1))].copy()
-    # Расчет кэшбека и группировка по номеру карты
-    # df_filtered['кэшбек'] = df_filtered['Сумма операции с округлением'] // 100
     df_filtered.loc[:, 'кэшбек'] = df_filtered['Сумма операции с округлением'] // 100
     sales_by_card = df_filtered.groupby('Номер карты')[['Сумма операции с округлением', 'кэшбек']].sum()
     sorted_sales = sales_by_card.sort_values(by='Сумма операции с округлением', ascending=False)
-
 
     print(sorted_sales)
     return sorted_sales
@@ -66,23 +59,14 @@ def max_five_transactions(data_time: pd.Timestamp) -> pd.DataFrame:
     Функция, которая извлекает 5 лучших транзакций по сумме платежа.
     """
     df = pd.read_excel(dir_transactions_excel)
-
-    # # Фильтрация транзакций за указанный месяц
-    # df_filtered = df.loc[
-    #     (pd.to_datetime(df['Дата операции'], dayfirst=True) <= data_time) &
-    #     (pd.to_datetime(df['Дата операции'], dayfirst=True) >= data_time.replace(day=1))
-    # ]
-    # Создаем копию для фильтрации
     filtered_df = df.copy()
 
-    # Фильтрация транзакций за указанный месяц
     filtered_df = filtered_df.loc[
         (pd.to_datetime(filtered_df['Дата операции'],
                         format="%d.%m.%Y %H:%M:%S", dayfirst=True) <= data_time) &
         (pd.to_datetime(filtered_df['Дата операции'],
                         format="%d.%m.%Y %H:%M:%S", dayfirst=True) >= data_time.replace(day=1))
         ]
-    # Сортировка и получение 5 лучших транзакций
     top_transactions = filtered_df.sort_values(by='Сумма операции с округлением', ascending=False).head(5)
     return top_transactions
 
@@ -137,5 +121,3 @@ if __name__ == '__main__':
     print(day_time_now())
     print(user_transactions(pd.to_datetime('29-09-2018 00:00:00', dayfirst=True)))
     print(max_five_transactions(pd.to_datetime('29.09.2018', dayfirst=True)))
-    # print(exchange_rate())
-    # print(get_price_stocks_snp500())
