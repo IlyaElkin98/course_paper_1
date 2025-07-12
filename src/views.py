@@ -1,7 +1,7 @@
+from src.reports import save_report
 from src.utils import (day_time_now, exchange_rate, get_price_stocks_snp500, max_five_transactions, user_transactions)
 from typing import Union
 import pandas as pd
-import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv('../.env')
@@ -12,7 +12,7 @@ dir_transactions_excel = current_dir/'data'/'operations.xlsx'
 print(dir_transactions_excel)
 
 
-def website(data_time: datetime) -> Union[list, dict]:
+def website(data_time: pd.Timestamp) -> Union[list, dict]:
 
     """
     Главная функция, принимающую на вход строку с датой и временем в формате
@@ -38,12 +38,22 @@ def website(data_time: datetime) -> Union[list, dict]:
     result3 = max_five_transactions(data_time)
     result4 = exchange_rate()
     result5 = get_price_stocks_snp500()
+    main_dict = {}
+    main_dict["greeting"] = result1
+    main_dict["cards"] = result2
+    main_dict["top_transactions"] = result3
+    main_dict["currency_rates"] = result4
+    main_dict["stock_prices"] = result5
 
-    return result1, result2, result3, result4, result5
+
+
+
+    return main_dict
+
 
 
 if __name__ == '__main__':
-
+    save_report(dir_transactions_excel)
     print(f'{day_time_now()}')
     # print(user_transactions(pd.to_datetime('29-09-2018 00:00:00', dayfirst=True)))
     data_time = pd.Timestamp("29-09-2018 00:00:00")  # Пример даты

@@ -4,7 +4,7 @@ from typing import Any
 import pandas as pd
 
 from src.reports import dir_transactions_excel, spending_by_category
-from src.services import simple_search, transactions
+from src.services import simple_search, dict_list
 from src.views import website
 
 
@@ -17,12 +17,12 @@ if __name__ == '__main__':
     print("\nГЛАВНАЯ\n")
 
     data_time = pd.Timestamp("29-09-2018 00:00:00")
-    result1, result2, result3, result4, result5 = website(data_time)
-    print(result1, result2, result3, result4, result5)
+    main_json = website(data_time)
+    print(main_json)
 
-    print("\nСервисы.Простой поиск\n")
+    print("\nСЕРВИСЫ. ПРОСТОЙ ПОИСК\n")
     search_str = input('Введите строку поиска: ')
-    simple_search(search_str, transactions)
+    simple_search(search_str, dict_list)
 
     print("\nОТЧЕТЫ\n")
     spending_by_category(pd.read_excel(dir_transactions_excel), 'Фастфуд', '11.11.2019')
